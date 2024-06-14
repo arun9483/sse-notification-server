@@ -121,3 +121,22 @@ app.post('/messages', (req, res) => {
   ```
   - stop sending keepAlive comment to client because client requested to close connection
   - remove client from the active clients list.
+
+### content format
+
+- message that would be sent by server
+  ```js
+  res.write(`key: value\n\n`);
+  ```
+- key is removed for keepAlive message
+  ```js
+  res.write(`: value\n\n`);
+  ```
+
+#### Summary
+
+- **`\n\n` in SSE:** Used to indicate the end of a message, allowing the client to properly parse each message.
+
+- **Comment Lines: : `keep-alive\n\n`** is used to keep the connection alive without sending actual data, ensuring proxies/firewalls don’t close the connection due to inactivity.
+
+By following the SSE protocol correctly, you ensure that messages are properly received and parsed by the client, maintaining a persistent and stable connection.
