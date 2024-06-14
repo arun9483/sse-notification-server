@@ -54,10 +54,8 @@ app.get('/messages', (_, res) => {
 });
 
 app.put('/messages/:id', (req, res) => {
-  const messageId = parseInt(req.params.id, 10);
-  messages = messages.map((msg) =>
-    msg.id === messageId ? { ...msg, read: true } : msg
-  );
+  const messageId = req.params.id;
+  messages = messages.filter((msg) => msg.id !== messageId);
   res.status(200).send('Message marked as read');
 });
 
